@@ -89,7 +89,7 @@ const EditorPreview: React.FC = () => {
                         {'\n'}  <span className="text-neon-purple">return</span> <span className="text-gray-400">{'{'}</span>
                         {'\n'}    <span className="text-neon-yellow">stars</span><span className="text-gray-400">,</span>
                         {'\n'}    <span className="text-neon-yellow">galaxies</span><span className="text-gray-400">,</span>
-                        {'\n'}    <span className="text-neon-yellow">render</span><span className="text-gray-400">:</span> <span className="text-gray-400">()</span> <span className="text-gray-400">=></span> <span className="text-neon-blue">renderUniverse</span><span className="text-gray-400">(</span><span className="text-neon-yellow">galaxies</span><span className="text-gray-400">)</span>
+                        {'\n'}    <span className="text-neon-yellow">render</span><span className="text-gray-400">:</span> <span className="text-gray-400">()</span> <span className="text-gray-400">{'=>'}</span> <span className="text-neon-blue">renderUniverse</span><span className="text-gray-400">(</span><span className="text-neon-yellow">galaxies</span><span className="text-gray-400">)</span>
                         {'\n'}  <span className="text-gray-400">{'}'}</span>
                         {'\n'}<span className="text-gray-400">{'}'}</span>
                         {'\n\n'}<span className="text-neon-purple">const</span> <span className="text-neon-yellow">universe</span> <span className="text-gray-400">=</span> <span className="text-neon-blue">generateUniverse</span><span className="text-gray-400">();</span>
@@ -121,11 +121,11 @@ const EditorPreview: React.FC = () => {
                             <span className="text-xs text-neon-yellow">Console</span>
                           </div>
                           <div className="text-xs text-gray-400">
-                            <p>> Universe initialized</p>
-                            <p>> Created 1000 stars</p>
-                            <p>> Created 10 galaxies</p>
-                            <p>> Rendering universe...</p>
-                            <p className="text-neon-green">> Render complete ✓</p>
+                            <p>{"> Universe initialized"}</p>
+                            <p>{"> Created 1000 stars"}</p>
+                            <p>{"> Created 10 galaxies"}</p>
+                            <p>{"> Rendering universe..."}</p>
+                            <p className="text-neon-green">{"> Render complete ✓"}</p>
                           </div>
                         </div>
                       </div>
