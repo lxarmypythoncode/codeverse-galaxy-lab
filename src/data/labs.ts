@@ -1,3 +1,4 @@
+
 export interface ILab {
   id: number;
   title: string;
@@ -918,7 +919,7 @@ server.listen(PORT, () => {
     category: "mobile",
     level: "beginner",
     tags: ["flutter", "dart", "mobile", "state-management"],
-    duration: 120, // Updated to use duration instead of timeEstimate
+    duration: 120, 
     objectives: [
       "Set up a Flutter development environment",
       "Create a beautiful UI with Flutter widgets",
@@ -1000,3 +1001,243 @@ class Todo {
     required this.description,
     this.isCompleted = false,
   });
+
+  // Convert Todo to a map for storing in SharedPreferences
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'isCompleted': isCompleted,
+    };
+  }
+
+  // Create Todo from a map when reading from SharedPreferences
+  factory Todo.fromMap(Map<String, dynamic> map) {
+    return Todo(
+      id: map['id'],
+      title: map['title'],
+      description: map['description'],
+      isCompleted: map['isCompleted'],
+    );
+  }
+}
+
+class TodoListScreen extends StatefulWidget {
+  @override
+  _TodoListScreenState createState() => _TodoListScreenState();
+}
+
+class _TodoListScreenState extends State<TodoListScreen> {
+  List<Todo> todos = [];
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTodos();
+  }
+
+  // Load todos from SharedPreferences
+  _loadTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final todosJson = prefs.getStringList('todos') ?? [];
+    
+    setState(() {
+      todos = todosJson
+          .map((todo) => Todo.fromMap(json.decode(todo)))
+          .toList();
+    });
+  }
+
+  // Save todos to SharedPreferences
+  _saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final todosJson = todos
+        .map((todo) => json.encode(todo.toMap()))
+        .toList();
+    prefs.setStringList('todos', todosJson);
+  }
+
+  // Add a new todo
+  _addTodo() {
+    if (_titleController.text.isEmpty) return;
+
+    final newTodo = Todo(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _titleController.text,
+      description: _descriptionController.text,
+    );
+
+    setState(() {
+      todos.add(newTodo);
+      _titleController.clear();
+      _descriptionController.clear();
+    });
+
+    _saveTodos();
+    Navigator.pop(context); // Close the dialog
+  }
+
+  // Toggle todo completion status
+  _toggleTodoStatus(String id) {
+    setState(() {
+      final todo = todos.firstWhere((todo) => todo.id == id);
+      todo.isCompleted = !todo.isCompleted;
+    });
+    _saveTodos();
+  }
+
+  // Delete a todo
+  _deleteTodo(String id) {
+    setState(() {
+      todos.removeWhere((todo) => todo.id == id);
+    });
+    _saveTodos();
+  }
+
+  // Edit a todo
+  _editTodo(Todo todo) async {
+    _titleController.text = todo.title;
+    _descriptionController.text = todo.description;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Todo'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                ),
+              ),
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  labelText: 'Description',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPress: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text('Save'),
+              onPress: () {
+                if (_titleController.text.isNotEmpty) {
+                  setState(() {
+                    todo.title = _titleController.text;
+                    todo.description = _descriptionController.text;
+                  });
+                  _saveTodos();
+                  Navigator.pop(context);
+                  _titleController.clear();
+                  _descriptionController.clear();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Todo App'),
+      ),
+      body: todos.isEmpty
+          ? Center(child: Text('No todos yet. Add some!'))
+          : ListView.builder(
+              itemCount: todos.length,
+              itemBuilder: (context, index) {
+                final todo = todos[index];
+                return ListTile(
+                  title: Text(
+                    todo.title,
+                    style: TextStyle(
+                      decoration: todo.isCompleted
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                    ),
+                  ),
+                  subtitle: Text(todo.description),
+                  leading: Checkbox(
+                    value: todo.isCompleted,
+                    onChanged: (_) => _toggleTodoStatus(todo.id),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () => _editTodo(todo),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () => _deleteTodo(todo.id),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          _titleController.clear();
+          _descriptionController.clear();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Add Todo'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                      ),
+                    ),
+                    TextField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Description',
+                      ),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    child: Text('Cancel'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  TextButton(
+                    child: Text('Add'),
+                    onPressed: _addTodo,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}`,
+      explanation: "This Flutter application creates a to-do list app with basic CRUD functionality. It uses SharedPreferences to persist todos between app sessions. Users can add, edit, mark as complete, and delete todos. The UI includes a list view showing all todos, and dialogs for adding and editing todos."
+    }
+  }
+];
