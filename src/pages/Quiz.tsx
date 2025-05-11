@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import StarryBackground from "@/components/StarryBackground";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Shield, BookOpen, Brain, Trophy, Clock } from "lucide-react";
+import { BookOpen, Brain, Shield, Trophy, Clock, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { quizzes, leaderboard } from "@/data/quizzes";
 
-// Dummy quiz data
+// Quiz categories with icons
 const quizCategories = [
   { id: "frontend", name: "Frontend", icon: <BookOpen className="h-5 w-5 text-neon-blue" /> },
   { id: "backend", name: "Backend", icon: <Brain className="h-5 w-5 text-neon-purple" /> },
@@ -17,75 +19,25 @@ const quizCategories = [
   { id: "cyber", name: "Cyber Security", icon: <Shield className="h-5 w-5 text-neon-blue" /> },
 ];
 
+// Difficulty levels
 const difficultyLevels = [
   { id: "beginner", name: "Dasar", color: "bg-green-500" },
   { id: "intermediate", name: "Menengah", color: "bg-yellow-500" },
   { id: "advanced", name: "Mahir", color: "bg-red-500" },
 ];
 
-const featuredQuizzes = [
-  { 
-    id: 1, 
-    title: "React Fundamentals", 
-    category: "frontend", 
-    level: "beginner", 
-    questions: 15, 
-    timeMinutes: 20,
-    description: "Test your understanding of React basics, components, and hooks."
-  },
-  { 
-    id: 2, 
-    title: "Node.js Advanced", 
-    category: "backend", 
-    level: "advanced", 
-    questions: 25, 
-    timeMinutes: 30,
-    description: "Challenge yourself with advanced Node.js concepts and patterns."
-  },
-  { 
-    id: 3, 
-    title: "Fullstack Development", 
-    category: "fullstack", 
-    level: "intermediate", 
-    questions: 20, 
-    timeMinutes: 25,
-    description: "Test your skills in both frontend and backend development."
-  },
-  { 
-    id: 4, 
-    title: "Cyber Security Basics", 
-    category: "cyber", 
-    level: "beginner", 
-    questions: 18, 
-    timeMinutes: 22,
-    description: "Learn about common security vulnerabilities and best practices."
-  },
-  { 
-    id: 5, 
-    title: "Flutter App Development", 
-    category: "mobile", 
-    level: "intermediate", 
-    questions: 22, 
-    timeMinutes: 28,
-    description: "Test your knowledge of Flutter widgets and state management."
-  },
-  { 
-    id: 6, 
-    title: "TypeScript Mastery", 
-    category: "frontend", 
-    level: "advanced", 
-    questions: 20, 
-    timeMinutes: 25,
-    description: "Advanced TypeScript types, patterns and best practices."
-  },
-];
-
 const Quiz = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   
-  const filteredQuizzes = selectedCategory === "all" 
-    ? featuredQuizzes 
-    : featuredQuizzes.filter(quiz => quiz.category === selectedCategory);
+  const filteredQuizzes = quizzes.filter((quiz) => {
+    const matchesCategory = selectedCategory === "all" || quiz.category === selectedCategory;
+    const matchesSearch = searchTerm === "" || 
+      quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      quiz.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen cosmic-bg">
@@ -117,6 +69,18 @@ const Quiz = () => {
           
           <TabsContent value="featured">
             <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+              <div className="w-full md:w-auto mb-4 md:mb-0">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Search quizzes..."
+                    className="pl-10 w-full md:w-[300px]"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+              
               <Button 
                 variant={selectedCategory === "all" ? "default" : "outline"} 
                 className="border-neon-blue/30 text-sm"
@@ -139,42 +103,50 @@ const Quiz = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredQuizzes.map(quiz => (
-                <Card key={quiz.id} className="cosmic-card hover:border-neon-blue/50 transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                        quiz.level === "beginner" ? "bg-green-900/30 text-green-400 border border-green-500/30" :
-                        quiz.level === "intermediate" ? "bg-yellow-900/30 text-yellow-400 border border-yellow-500/30" :
-                        "bg-red-900/30 text-red-400 border border-red-500/30"
-                      }`}>
-                        {difficultyLevels.find(d => d.id === quiz.level)?.name}
-                      </span>
-                      
-                      <span className="text-xs text-gray-400 flex items-center">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {quiz.timeMinutes} min
-                      </span>
-                    </div>
-                    <CardTitle className="font-orbitron">{quiz.title}</CardTitle>
-                    <CardDescription className="text-gray-400">{quiz.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between text-sm text-gray-300">
-                      <span>
-                        {quizCategories.find(c => c.id === quiz.category)?.icon}
-                        <span className="ml-2">{quizCategories.find(c => c.id === quiz.category)?.name}</span>
-                      </span>
-                      <span>{quiz.questions} questions</span>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="cyber-button w-full">
-                      Start Quiz
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
+              {filteredQuizzes.length === 0 ? (
+                <div className="col-span-full cosmic-card p-8 text-center">
+                  <p className="text-lg text-gray-300">
+                    No quizzes match your current search. Try adjusting your filters.
+                  </p>
+                </div>
+              ) : (
+                filteredQuizzes.map(quiz => (
+                  <Card key={quiz.id} className="cosmic-card hover:border-neon-blue/50 transition-all duration-300">
+                    <CardHeader>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                          quiz.level === "beginner" ? "bg-green-900/30 text-green-400 border border-green-500/30" :
+                          quiz.level === "intermediate" ? "bg-yellow-900/30 text-yellow-400 border border-yellow-500/30" :
+                          "bg-red-900/30 text-red-400 border border-red-500/30"
+                        }`}>
+                          {difficultyLevels.find(d => d.id === quiz.level)?.name}
+                        </span>
+                        
+                        <span className="text-xs text-gray-400 flex items-center">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {quiz.timeMinutes} min
+                        </span>
+                      </div>
+                      <CardTitle className="font-orbitron">{quiz.title}</CardTitle>
+                      <CardDescription className="text-gray-400">{quiz.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between text-sm text-gray-300">
+                        <span>
+                          {quizCategories.find(c => c.id === quiz.category)?.icon}
+                          <span className="ml-2">{quizCategories.find(c => c.id === quiz.category)?.name}</span>
+                        </span>
+                        <span>{quiz.questions} questions</span>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="cyber-button w-full">
+                        Start Quiz
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))
+              )}
             </div>
           </TabsContent>
           
@@ -217,35 +189,31 @@ const Quiz = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {[1, 2, 3, 4, 5].map(position => (
+                  {leaderboard.map((position, index) => (
                     <div 
-                      key={position} 
+                      key={position.id} 
                       className={`flex items-center justify-between p-4 rounded-lg ${
-                        position === 1 ? 'bg-yellow-900/20 border border-yellow-500/30' :
-                        position === 2 ? 'bg-gray-800/50 border border-gray-500/30' :
-                        position === 3 ? 'bg-orange-900/20 border border-orange-500/30' :
+                        index === 0 ? 'bg-yellow-900/20 border border-yellow-500/30' :
+                        index === 1 ? 'bg-gray-800/50 border border-gray-500/30' :
+                        index === 2 ? 'bg-orange-900/20 border border-orange-500/30' :
                         'bg-muted/20 border border-muted/30'
                       }`}
                     >
                       <div className="flex items-center">
                         <div className="font-orbitron text-xl font-bold mr-4 w-6 text-center">
-                          {position}
+                          {index + 1}
                         </div>
                         <div>
-                          <div className="font-medium">User{position}00{position}</div>
+                          <div className="font-medium">{position.username}</div>
                           <div className="text-sm text-gray-400">
-                            {position === 1 ? 'Frontend Master' :
-                             position === 2 ? 'Backend Guru' :
-                             position === 3 ? 'Fullstack Developer' :
-                             position === 4 ? 'Mobile Developer' :
-                             'Security Specialist'}
+                            {position.title}
                           </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-orbitron text-neon-blue">{1000 - position * 50} pts</div>
+                        <div className="font-orbitron text-neon-blue">{position.points} pts</div>
                         <div className="text-xs text-gray-400">
-                          {15 - position} quizzes
+                          {position.quizzes} quizzes
                         </div>
                       </div>
                     </div>

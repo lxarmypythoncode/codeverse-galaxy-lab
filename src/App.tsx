@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-// Import the new pages
+// Import the pages
 import Learn from "./pages/Learn";
 import Labs from "./pages/Labs";
 import Editor from "./pages/Editor";
@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/editor" element={<Editor />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/quiz" element={<Quiz />} />
+          <Route path="/quiz/:quizId" element={<Quiz />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
