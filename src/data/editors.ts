@@ -1,4 +1,3 @@
-
 export interface IEditor {
   id: string;
   title: string;
@@ -1073,7 +1072,7 @@ function password_check() {
     echo "Checking password strength for: $password"
     
     # Calculate basic metrics
-    local length=${#password}
+    local length=\${#password}
     local has_lower=$(echo "$password" | grep -c "[a-z]")
     local has_upper=$(echo "$password" | grep -c "[A-Z]")
     local has_digit=$(echo "$password" | grep -c "[0-9]")
@@ -1125,15 +1124,15 @@ function encrypt_message() {
     
     # Simple XOR encryption (for demonstration only)
     encrypted=""
-    for (( i=0; i<${#message}; i++ )); do
-        char="${message:$i:1}"
+    for (( i=0; i<\${#message}; i++ )); do
+        char="\${message:\$i:1}"
         ascii_val=$(printf "%d" "'$char")
-        key_char="${key:$(($i % ${#key})):1}"
+        key_char="\${key:\$((i % \${#key})):1}"
         key_val=$(printf "%d" "'$key_char")
         
         # XOR operation
-        encrypted_val=$(($ascii_val ^ $key_val))
-        encrypted+=$(printf "\\x%02x" $encrypted_val)
+        encrypted_val=$((ascii_val ^ key_val))
+        encrypted+=$(printf "\\\\x%02x" $encrypted_val)
     done
     
     echo "Original message: $message"
