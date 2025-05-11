@@ -1,4 +1,3 @@
-
 export interface IEditor {
   id: string;
   title: string;
@@ -689,9 +688,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) {
+        onTap: (i) {
           setState(() {
-            _currentIndex = index;
+            _currentIndex = i;
           });
         },
         items: const [
@@ -718,23 +717,23 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, idx) {
         return Card(
           margin: EdgeInsets.all(8.0),
           child: ListTile(
             leading: CircleAvatar(
-              child: Text('${index + 1}'),
+              child: Text('${idx + 1}'),
             ),
-            title: Text('Item ${index + 1}'),
-            subtitle: Text('Description for item ${index + 1}'),
+            title: Text('Item ${idx + 1}'),
+            subtitle: Text('Description for item ${idx + 1}'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               // Show a simple dialog when an item is tapped
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Item ${index + 1}'),
-                  content: Text('You tapped on item ${index + 1}'),
+                  title: Text('Item ${idx + 1}'),
+                  content: Text('You tapped on item ${idx + 1}'),
                   actions: [
                     TextButton(
                       child: Text('Close'),
@@ -808,15 +807,15 @@ class _SearchTabState extends State<SearchTab> {
                 )
               : ListView.builder(
                   itemCount: _searchResults.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, i) {
                     return ListTile(
-                      title: Text(_searchResults[index]),
+                      title: Text(_searchResults[i]),
                       onTap: () {
                         // Clear search and show selected item
                         FocusScope.of(context).unfocus();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Selected: ${_searchResults[index]}'),
+                            content: Text('Selected: ${_searchResults[i]}'),
                             duration: Duration(seconds: 1),
                           ),
                         );
@@ -1074,10 +1073,10 @@ function password_check() {
     
     # Calculate basic metrics
     local length=\${#password}
-    local has_lower=$(echo "$password" | grep -c "[a-z]")
-    local has_upper=$(echo "$password" | grep -c "[A-Z]")
-    local has_digit=$(echo "$password" | grep -c "[0-9]")
-    local has_special=$(echo "$password" | grep -c "[^a-zA-Z0-9]")
+    local has_lower=\$(echo "$password" | grep -c "[a-z]")
+    local has_upper=\$(echo "$password" | grep -c "[A-Z]")
+    local has_digit=\$(echo "$password" | grep -c "[0-9]")
+    local has_special=\$(echo "$password" | grep -c "[^a-zA-Z0-9]")
     
     # Calculate score
     local score=0
@@ -1127,13 +1126,13 @@ function encrypt_message() {
     encrypted=""
     for (( i=0; i<\${#message}; i++ )); do
         char="\${message:\$i:1}"
-        ascii_val=$(printf "%d" "'$char")
+        ascii_val=\$(printf "%d" "'$char")
         key_char="\${key:\$((\$i % \${#key})):1}"
-        key_val=$(printf "%d" "'$key_char")
+        key_val=\$(printf "%d" "'$key_char")
         
         # XOR operation
-        encrypted_val=$((\$ascii_val ^ \$key_val))
-        encrypted+=$(printf "\\\\x%02x" \$encrypted_val)
+        encrypted_val=\$((\$ascii_val ^ \$key_val))
+        encrypted+=\$(printf "\\\\x%02x" \$encrypted_val)
     done
     
     echo "Original message: $message"
@@ -1148,10 +1147,10 @@ function generate_hash() {
     echo "Generating hash values for: $input"
     
     # Simulate hash values (not actual hashes)
-    echo "MD5:      $(echo -n "$input" | md5sum | cut -d ' ' -f 1)"
-    echo "SHA-1:    $(echo -n "$input" | sha1sum | cut -d ' ' -f 1)"
-    echo "SHA-256:  $(echo -n "$input" | sha256sum | cut -d ' ' -f 1)"
-    echo "SHA-512:  $(echo -n "$input" | sha512sum | cut -d ' ' -f 1)"
+    echo "MD5:      \$(echo -n "$input" | md5sum | cut -d ' ' -f 1)"
+    echo "SHA-1:    \$(echo -n "$input" | sha1sum | cut -d ' ' -f 1)"
+    echo "SHA-256:  \$(echo -n "$input" | sha256sum | cut -d ' ' -f 1)"
+    echo "SHA-512:  \$(echo -n "$input" | sha512sum | cut -d ' ' -f 1)"
 }
 
 # Simulated Log Analysis

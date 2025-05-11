@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import StarryBackground from "@/components/StarryBackground";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Terminal, ChevronRight, Search, Check, Code, Shield } from "lucide-react";
+import { Beaker, ChevronDown, ChevronRight, Search, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -38,8 +38,8 @@ const Labs = () => {
   };
 
   const categoryIcons = {
-    frontend: <Code className="h-5 w-5 text-neon-blue" />,
-    backend: <Terminal className="h-5 w-5 text-neon-purple" />,
+    frontend: <Beaker className="h-5 w-5 text-neon-blue" />,
+    backend: <Shield className="h-5 w-5 text-neon-purple" />,
     fullstack: <Shield className="h-5 w-5 text-neon-yellow" />,
     mobile: <Shield className="h-5 w-5 text-neon-green" />,
     cyber: <Shield className="h-5 w-5 text-neon-red" />,
@@ -60,15 +60,15 @@ const Labs = () => {
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-16">
           <div className="mb-6 inline-block">
-            <div className="inline-flex items-center justify-center p-3 rounded-full bg-neon-yellow/20 border border-neon-yellow/40">
-              <Terminal className="h-6 w-6 text-neon-yellow" />
+            <div className="inline-flex items-center justify-center p-3 rounded-full bg-neon-purple/20 border border-neon-purple/40">
+              <Beaker className="h-6 w-6 text-neon-purple" />
             </div>
           </div>
           <h1 className="font-orbitron text-4xl md:text-5xl font-bold mb-4">
             Coding <span className="gradient-text">Labs</span>
           </h1>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Practice your skills with hands-on coding challenges. Our interactive labs provide real-world problems to solve.
+            Put your skills to the test with our interactive coding labs. Solve real-world problems and build your portfolio.
           </p>
         </div>
 
@@ -160,7 +160,7 @@ const Labs = () => {
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {filteredLabs.map((lab) => (
-                  <Card key={lab.id} className="cosmic-card hover:border-neon-blue/50 transition-all duration-300">
+                  <Card key={lab.id} className="cosmic-card hover:border-neon-purple/50 transition-all duration-300">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div className="flex items-center">
@@ -175,20 +175,25 @@ const Labs = () => {
                       <CardDescription className="text-gray-400">{lab.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="flex items-center text-neon-yellow">
-                          <Terminal className="h-4 w-4 mr-2" />
-                          <span>Hands-on Lab</span>
-                        </span>
-                        <span className="text-gray-400">{lab.timeEstimate} min</span>
-                      </div>
-                      <div className="mt-4 space-y-1">
-                        {lab.testCases.map((testCase, idx) => (
-                          <div key={idx} className="flex items-start text-xs">
-                            <Check className="h-3 w-3 mr-1 mt-1 text-green-500" />
-                            <span className="text-gray-400">{testCase.input}</span>
-                          </div>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {lab.tags.map((tag, index) => (
+                          <span 
+                            key={index} 
+                            className="text-xs bg-galactic-dark border border-neon-purple/20 px-2 py-1 rounded-full"
+                          >
+                            {tag}
+                          </span>
                         ))}
+                      </div>
+                      <div className="flex justify-between items-center text-sm text-gray-300">
+                        <span>
+                          <span className="mr-1">Tasks:</span>
+                          <span className="text-neon-purple">{lab.tasks.length}</span>
+                        </span>
+                        <span>
+                          <span className="mr-1">Time:</span>
+                          <span className="text-neon-purple">{lab.duration} min</span>
+                        </span>
                       </div>
                     </CardContent>
                     <CardFooter>

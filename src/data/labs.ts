@@ -1,1184 +1,1002 @@
 export interface ILab {
   id: number;
   title: string;
+  description: string;
   category: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'cyber';
   level: 'beginner' | 'intermediate' | 'advanced';
-  description: string;
-  task: string;
-  defaultCode: string;
-  solution: string;
-  hints: string[];
-  testCases?: { input: string; expectedOutput: string }[];
-  slug: string;
+  tags: string[];
+  duration: number; // in minutes
+  objectives: string[];
+  tasks: {
+    title: string;
+    description: string;
+    hint?: string;
+  }[];
+  solution: {
+    code: string;
+    explanation: string;
+  };
 }
 
 export const labs: ILab[] = [
   {
     id: 1,
-    title: "Build a Responsive Navigation Bar",
+    title: "Build a Simple Website with HTML, CSS, and JavaScript",
+    description: "Create a basic website layout with a navigation bar, a hero section, and a footer.",
     category: "frontend",
     level: "beginner",
-    description: "Create a responsive navigation bar that collapses into a hamburger menu on mobile devices",
-    task: "Implement a responsive navigation bar with smooth transitions and accessibility features",
-    defaultCode: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Nav Bar</title>
-  <style>
-    /* Add your CSS here */
-    
-  </style>
-</head>
-<body>
-  <!-- Add your HTML here -->
-  
-  <script>
-    // Add your JavaScript here
-    
-  </script>
-</body>
-</html>`,
-    solution: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Nav Bar</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-    }
-    
-    header {
-      background: #333;
-      color: #fff;
-      padding: 1rem;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-    
-    .nav-menu {
-      display: flex;
-      list-style: none;
-    }
-    
-    .nav-item {
-      margin-left: 1.5rem;
-    }
-    
-    .nav-link {
-      color: #fff;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-link:hover {
-      color: #ccc;
-    }
-    
-    .hamburger {
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-    }
-    
-    @media screen and (max-width: 768px) {
-      .hamburger {
-        display: block;
-        z-index: 10;
-      }
-      
-      .nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        flex-direction: column;
-        width: 70%;
-        height: 100vh;
-        background: #333;
-        padding: 4rem 2rem 2rem;
-        transition: right 0.3s ease;
-        z-index: 5;
-      }
-      
-      .nav-menu.active {
-        right: 0;
-      }
-      
-      .nav-item {
-        margin: 1rem 0;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <nav>
-        <div class="logo">CodeVerseLab</div>
-        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">☰</button>
-        <ul class="nav-menu" id="nav-menu" aria-label="Main navigation">
-          <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Services</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Projects</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  <script>
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-      const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', !isExpanded);
-      hamburger.textContent = isExpanded ? '☰' : '✕';
-    });
-    
-    // Close menu when clicking on a nav link
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        hamburger.textContent = '☰';
-      });
-    });
-  </script>
-</body>
-</html>`,
-    hints: [
-      "Use HTML, CSS, and JavaScript",
-      "Don't use any external libraries or frameworks",
-      "Ensure the navigation is accessible (proper ARIA attributes)",
-      "Style it with a modern design",
-      "Implement smooth animations"
+    tags: ["html", "css", "javascript", "web-development"],
+    duration: 45,
+    objectives: [
+      "Set up a basic HTML structure",
+      "Style the website using CSS",
+      "Add interactivity with JavaScript",
+      "Understand the basics of web development"
     ],
-    testCases: [
+    tasks: [
       {
-        input: "Desktop view (width > 768px)",
-        expectedOutput: "Navigation links should be displayed horizontally"
+        title: "Set up HTML structure",
+        description: "Create a basic HTML file with a head and body section."
       },
       {
-        input: "Mobile view (width < 768px)",
-        expectedOutput: "Navigation links should be hidden and hamburger menu should be visible"
+        title: "Add a navigation bar",
+        description: "Create a navigation bar with links to different sections of the website."
       },
       {
-        input: "Click hamburger menu in mobile view",
-        expectedOutput: "Navigation menu should slide in from the right"
+        title: "Create a hero section",
+        description: "Design a hero section with a catchy headline and a brief description."
+      },
+      {
+        title: "Style the website with CSS",
+        description: "Use CSS to style the website and make it visually appealing."
+      },
+      {
+        title: "Add interactivity with JavaScript",
+        description: "Add a simple JavaScript function to make the website interactive."
       }
     ],
-    timeEstimate: 30,
-    slug: "responsive-navigation-bar"
+    solution: {
+      code: `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            color: #fff;
+            padding: 0.5em 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 1em;
+        }
+        .hero {
+            background-color: #eee;
+            padding: 2em;
+            text-align: center;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Simple Website</h1>
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+    <section class="hero">
+        <h2>Welcome to My Website</h2>
+        <p>This is a simple website created using HTML, CSS, and JavaScript.</p>
+    </section>
+    <footer>
+        <p>&copy; 2023 Simple Website</p>
+    </footer>
+</body>
+</html>
+`,
+      explanation: "This solution provides a basic HTML structure with a navigation bar, a hero section, and a footer. It uses CSS to style the website and make it visually appealing. The website is not interactive, but it provides a solid foundation for building more complex websites."
+    }
   },
   {
     id: 2,
-    title: "API Rate Limiter",
-    category: "backend",
+    title: "Create a To-Do List App with React",
+    description: "Build a simple to-do list application with React to manage daily tasks.",
+    category: "frontend",
     level: "intermediate",
-    description: "Implement a rate limiter for a Node.js Express API",
-    task: "Create a middleware that limits requests to 100 per hour per IP address",
-    defaultCode: `const express = require('express');
-const app = express();
-
-// Implement your rate limiter middleware here
-function rateLimiter(maxRequests, windowMs) {
-  // Your code here
-}
-
-// Apply your middleware
-app.use(rateLimiter(100, 60 * 60 * 1000)); // 100 requests per hour
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-`,
-    solution: `const express = require('express');
-const app = express();
-
-function rateLimiter(maxRequests, windowMs) {
-  // Store for tracking requests
-  const requestStore = new Map();
-  
-  return (req, res, next) => {
-    const ip = req.ip || req.connection.remoteAddress;
-    const now = Date.now();
-    
-    // Initialize or retrieve the IP's request history
-    if (!requestStore.has(ip)) {
-      requestStore.set(ip, []);
-    }
-    
-    // Get the request history for this IP
-    const requestHistory = requestStore.get(ip);
-    
-    // Clean up old requests (sliding window)
-    const windowStart = now - windowMs;
-    const recentRequests = requestHistory.filter(timestamp => timestamp > windowStart);
-    
-    // Update the store with only recent requests
-    requestStore.set(ip, recentRequests);
-    
-    // Check if limit is exceeded
-    if (recentRequests.length >= maxRequests) {
-      res.status(429).json({
-        error: 'Too Many Requests',
-        message: 'Rate limit exceeded. Please try again later.'
-      });
-      return;
-    }
-    
-    // Add current request timestamp
-    recentRequests.push(now);
-    requestStore.set(ip, recentRequests);
-    
-    // Set headers
-    res.setHeader('X-RateLimit-Limit', maxRequests);
-    res.setHeader('X-RateLimit-Remaining', maxRequests - recentRequests.length);
-    res.setHeader('X-RateLimit-Reset', Math.ceil((windowStart + windowMs) / 1000));
-    
-    next();
-  };
-}
-
-app.use(rateLimiter(100, 60 * 60 * 1000)); // 100 requests per hour
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-`,
-    hints: [
-      "Use an in-memory store (for simplicity)",
-      "Return appropriate status codes (429) when limit is exceeded",
-      "Include remaining limit count in response headers",
-      "Implement a sliding window algorithm for more accurate rate limiting"
+    tags: ["react", "javascript", "web-development", "components"],
+    duration: 60,
+    objectives: [
+      "Set up a React development environment",
+      "Create React components",
+      "Manage state in React",
+      "Handle user input in React"
     ],
-    testCases: [
+    tasks: [
       {
-        input: "Single request",
-        expectedOutput: "Status 200 with X-RateLimit-Remaining: 99"
+        title: "Set up React environment",
+        description: "Create a new React application using Create React App."
       },
       {
-        input: "101 requests within an hour",
-        expectedOutput: "Status 429 after the 100th request"
+        title: "Create a ToDo component",
+        description: "Build a component to display a single to-do item."
       },
       {
-        input: "Request after window expiration",
-        expectedOutput: "Status 200 with reset limits"
+        title: "Create a ToDoList component",
+        description: "Build a component to display a list of to-do items."
+      },
+      {
+        title: "Add input field",
+        description: "Add an input field to allow users to add new to-do items."
+      },
+      {
+        title: "Handle user input",
+        description: "Implement a function to handle user input and add new to-do items to the list."
       }
     ],
-    timeEstimate: 45,
-    slug: "api-rate-limiter"
+    solution: {
+      code: `
+import React, { useState } from 'react';
+
+function ToDo({ todo, index, completeTodo, removeTodo }) {
+  return (
+    <div
+      className="todo"
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+    >
+      {todo.text}
+      <div>
+        <button onClick={() => completeTodo(index)}>Complete</button>
+        <button onClick={() => removeTodo(index)}>x</button>
+      </div>
+    </div>
+  );
+}
+
+function ToDoForm({ addTodo }) {
+  const [value, setValue] = useState("");
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!value) return;
+    addTodo(value);
+    setValue("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="input"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
+    </form>
+  );
+}
+
+function ToDoList() {
+  const [todos, setTodos] = useState([
+    { text: "Learn React", isCompleted: false },
+    { text: "Meet friend for lunch", isCompleted: false },
+    { text: "Build really cool todo app", isCompleted: false }
+  ]);
+
+  const addTodo = text => {
+    const newTodos = [...todos, { text }];
+    setTodos(newTodos);
+  };
+
+  const completeTodo = index => {
+    const newTodos = [...todos];
+    newTodos[index].isCompleted = true;
+    setTodos(newTodos);
+  };
+
+  const removeTodo = index => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
+  return (
+    <div className="app">
+      <div className="todo-list">
+        {todos.map((todo, index) => (
+          <ToDo
+            key={index}
+            index={index}
+            todo={todo}
+            completeTodo={completeTodo}
+            removeTodo={removeTodo}
+          />
+        ))}
+        <ToDoForm addTodo={addTodo} />
+      </div>
+    </div>
+  );
+}
+
+export default ToDoList;
+`,
+      explanation: "This solution provides a basic to-do list application with React. It uses React components to display to-do items and handle user input. The application allows users to add new to-do items, mark them as complete, and remove them from the list."
+    }
   },
   {
     id: 3,
-    title: "SQL Injection Prevention",
-    category: "cyber",
+    title: "Build a RESTful API with Node.js and Express",
+    description: "Learn how to create a REST API to handle CRUD operations for a resource",
+    category: "backend",
     level: "intermediate",
-    description: "Identify and fix SQL injection vulnerabilities in existing code",
-    task: "Identify all SQL injection vulnerabilities in the code and fix each vulnerability",
-    defaultCode: `const express = require('express');
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-
-const app = express();
-app.use(bodyParser.json());
-
-// Database connection
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'app_user',
-  password: 'password',
-  database: 'user_db'
-});
-
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to database');
-});
-
-// Login endpoint
-app.post('/login', (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  
-  // VULNERABLE: Direct string concatenation in SQL query
-  const query = "SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "'";
-  
-  db.query(query, (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Database error' });
-      return;
-    }
-    
-    if (result.length > 0) {
-      res.json({ success: true, user: result[0] });
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-  });
-});
-
-// User search endpoint
-app.get('/users', (req, res) => {
-  const searchTerm = req.query.search || '';
-  
-  // VULNERABLE: Direct string concatenation in SQL query
-  const query = "SELECT id, name, email FROM users WHERE name LIKE '%" + searchTerm + "%' OR email LIKE '%" + searchTerm + "%'";
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      res.status(500).json({ error: 'Database error' });
-      return;
-    }
-    
-    res.json({ users: results });
-  });
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-`,
-    solution: `const express = require('express');
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-
-const app = express();
-app.use(bodyParser.json());
-
-// Database connection
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'app_user',
-  password: 'password',
-  database: 'user_db'
-});
-
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to database');
-});
-
-// Input validation function
-function validateEmail(email) {
-  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
-  return re.test(String(email).toLowerCase());
-}
-
-// Login endpoint
-app.post('/login', (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  
-  // Input validation
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: 'Email and password are required' });
-  }
-  
-  if (!validateEmail(email)) {
-    return res.status(400).json({ success: false, message: 'Invalid email format' });
-  }
-  
-  // FIXED: Using parameterized query
-  const query = "SELECT * FROM users WHERE email = ? AND password = ?";
-  
-  db.query(query, [email, password], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: 'Database error' });
-      return;
-    }
-    
-    if (result.length > 0) {
-      // Don't return password in response
-      const user = { ...result[0] };
-      delete user.password;
-      
-      res.json({ success: true, user });
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-  });
-});
-
-// User search endpoint
-app.get('/users', (req, res) => {
-  const searchTerm = req.query.search || '';
-  
-  // FIXED: Using parameterized query with placeholders
-  const query = "SELECT id, name, email FROM users WHERE name LIKE ? OR email LIKE ?";
-  const searchPattern = \`%\${searchTerm}%\`;
-  
-  db.query(query, [searchPattern, searchPattern], (err, results) => {
-    if (err) {
-      res.status(500).json({ error: 'Database error' });
-      return;
-    }
-    
-    res.json({ users: results });
-  });
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-`,
-    hints: [
-      "Look for places where user input is directly concatenated into SQL queries",
-      "Use prepared statements/parameterized queries",
-      "Consider using an ORM like Sequelize or TypeORM instead of raw queries"
+    tags: ["node.js", "express", "rest-api", "crud"],
+    duration: 60, // Updated to use duration instead of timeEstimate
+    objectives: [
+      "Set up a Node.js project with Express",
+      "Create API endpoints for CRUD operations",
+      "Implement proper status codes and response formats",
+      "Test the API with a REST client"
     ],
-    testCases: [
+    tasks: [
       {
-        input: "Normal login with email: user@example.com, password: password123",
-        expectedOutput: "Status 200 or 401 (depending on if credentials match)"
+        title: "Project Setup",
+        description: "Initialize a Node.js project and install Express"
       },
       {
-        input: "SQL Injection attack: email: ' OR '1'='1", 
-        expectedOutput: "Status 401 (rejected), not returning all users"
+        title: "Create Express Server",
+        description: "Set up a basic Express server that listens on port 3000"
       },
       {
-        input: "Search with term: '; DROP TABLE users; --",
-        expectedOutput: "Status 200 with empty or filtered results, not executing the DROP command"
+        title: "Define a Data Model",
+        description: "Create a simple data model for a resource (e.g., products, users, posts)"
+      },
+      {
+        title: "Implement GET Endpoints",
+        description: "Create endpoints to get all items and get a single item by ID"
+      },
+      {
+        title: "Implement POST Endpoint",
+        description: "Create an endpoint to add a new item"
+      },
+      {
+        title: "Implement PUT Endpoint",
+        description: "Create an endpoint to update an existing item"
+      },
+      {
+        title: "Implement DELETE Endpoint",
+        description: "Create an endpoint to delete an item"
+      },
+      {
+        title: "Add Error Handling",
+        description: "Implement proper error handling for your API"
       }
     ],
-    timeEstimate: 40,
-    slug: "sql-injection-prevention"
+    solution: {
+      code: `// server.js
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// In-memory database
+let products = [
+  { id: 1, name: 'Laptop', price: 999.99, inStock: true },
+  { id: 2, name: 'Smartphone', price: 699.99, inStock: true },
+  { id: 3, name: 'Headphones', price: 199.99, inStock: false }
+];
+
+// GET all products
+app.get('/api/products', (req, res) => {
+  res.status(200).json(products);
+});
+
+// GET product by ID
+app.get('/api/products/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const product = products.find(p => p.id === id);
+  
+  if (!product) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  
+  res.status(200).json(product);
+});
+
+// POST create new product
+app.post('/api/products', (req, res) => {
+  const { name, price, inStock } = req.body;
+  
+  if (!name || price === undefined) {
+    return res.status(400).json({ message: 'Name and price are required' });
+  }
+  
+  const newProduct = {
+    id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
+    name,
+    price,
+    inStock: inStock !== undefined ? inStock : true
+  };
+  
+  products.push(newProduct);
+  res.status(201).json(newProduct);
+});
+
+// PUT update product
+app.put('/api/products/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const productIndex = products.findIndex(p => p.id === id);
+  
+  if (productIndex === -1) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  
+  const updatedProduct = {
+    id,
+    name: req.body.name || products[productIndex].name,
+    price: req.body.price !== undefined ? req.body.price : products[productIndex].price,
+    inStock: req.body.inStock !== undefined ? req.body.inStock : products[productIndex].inStock
+  };
+  
+  products[productIndex] = updatedProduct;
+  res.status(200).json(updatedProduct);
+});
+
+// DELETE product
+app.delete('/api/products/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const productIndex = products.findIndex(p => p.id === id);
+  
+  if (productIndex === -1) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  
+  products = products.filter(p => p.id !== id);
+  res.status(204).end();
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(\`Server running on port \${PORT}\`);
+});`,
+      explanation: "This solution implements a complete RESTful API using Express. It provides endpoints for all CRUD operations (Create, Read, Update, Delete) on a product resource. The API uses appropriate HTTP methods and status codes, and includes basic error handling. Data is stored in-memory for simplicity, but in a real application, you would use a database."
+    }
   },
   {
     id: 4,
-    title: "Flutter State Management with Provider",
+    title: "Build a Mobile App with React Native",
+    description: "Create a simple mobile app using React Native.",
     category: "mobile",
     level: "intermediate",
-    description: "Build a shopping cart app using Flutter's Provider package for state management",
-    task: "Create a product listing page showing at least 5 products and implement a shopping cart",
-    defaultCode: `import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+    tags: ["react-native", "javascript", "mobile-development"],
+    duration: 75,
+    objectives: [
+      "Set up a React Native development environment",
+      "Create React Native components",
+      "Style React Native components",
+      "Handle user input in React Native"
+    ],
+    tasks: [
+      {
+        title: "Set up React Native environment",
+        description: "Set up a React Native development environment on your local machine."
+      },
+      {
+        title: "Create a basic layout",
+        description: "Create a basic layout for your mobile app using React Native components."
+      },
+      {
+        title: "Style the components",
+        description: "Style the React Native components using CSS-like syntax."
+      },
+      {
+        title: "Handle user input",
+        description: "Implement a function to handle user input and update the state of the components."
+      }
+    ],
+    solution: {
+      code: `
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
-// Create your models here
+export default function App() {
+  const [name, setName] = useState('');
 
-void main() {
-  runApp(MyApp());
-}
+  const handleInputChange = (text) => {
+    setName(text);
+  };
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shopping Cart',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProductsPage(),
-    );
-  }
-}
-
-class ProductsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Implement products page
-    return Scaffold();
-  }
-}
-
-class CartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Implement cart page
-    return Scaffold();
-  }
-}`,
-    solution: `import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-// Models
-class Product {
-  final String id;
-  final String name;
-  final double price;
-  final String imageUrl;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.imageUrl,
-  });
-}
-
-class CartItem {
-  final Product product;
-  int quantity;
-
-  CartItem({
-    required this.product,
-    this.quantity = 1,
-  });
-
-  double get total => product.price * quantity;
-}
-
-class CartModel extends ChangeNotifier {
-  final List<CartItem> _items = [];
-
-  List<CartItem> get items => [..._items];
-  
-  int get itemCount => _items.fold(0, (sum, item) => sum + item.quantity);
-  
-  double get totalAmount => _items.fold(
-    0, (sum, item) => sum + (item.product.price * item.quantity)
-  );
-
-  void addProduct(Product product) {
-    final existingIndex = _items.indexWhere(
-      (item) => item.product.id == product.id
-    );
-
-    if (existingIndex >= 0) {
-      _items[existingIndex].quantity++;
+  const handleSubmit = () => {
+    if (name.trim() === '') {
+      Alert.alert('Please enter your name');
     } else {
-      _items.add(CartItem(product: product));
+      Alert.alert(\`Hello, \${name}!\`);
     }
+  };
 
-    notifyListeners();
-  }
-
-  void removeProduct(String productId) {
-    final existingIndex = _items.indexWhere(
-      (item) => item.product.id == productId
-    );
-
-    if (existingIndex >= 0) {
-      if (_items[existingIndex].quantity > 1) {
-        _items[existingIndex].quantity--;
-      } else {
-        _items.removeAt(existingIndex);
-      }
-    }
-
-    notifyListeners();
-  }
-
-  void clearCart() {
-    _items.clear();
-    notifyListeners();
-  }
-}
-
-// Sample data
-final sampleProducts = [
-  Product(
-    id: 'p1',
-    name: 'Smartphone',
-    price: 799.99,
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-  Product(
-    id: 'p2',
-    name: 'Laptop',
-    price: 1299.99,
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-  Product(
-    id: 'p3',
-    name: 'Headphones',
-    price: 159.99,
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-  Product(
-    id: 'p4',
-    name: 'Smartwatch',
-    price: 249.99,
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-  Product(
-    id: 'p5',
-    name: 'Wireless Earbuds',
-    price: 129.99,
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-];
-
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => CartModel(),
-      child: MyApp(),
-    ),
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Enter Your Name:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Your Name"
+        value={name}
+        onChangeText={handleInputChange}
+      />
+      <Button title="Submit" onPress={handleSubmit} />
+    </View>
   );
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shopping Cart',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
-      home: ProductsPage(),
-    );
-  }
-}
-
-class ProductsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Products'),
-        actions: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage()),
-                  );
-                },
-              ),
-              Positioned(
-                right: 8,
-                top: 8,
-                child: Consumer<CartModel>(
-                  builder: (_, cart, __) {
-                    return cart.itemCount == 0
-                        ? Container()
-                        : Container(
-                            padding: EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            constraints: BoxConstraints(
-                              minWidth: 16,
-                              minHeight: 16,
-                            ),
-                            child: Text(
-                              '${cart.itemCount}',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: GridView.builder(
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: sampleProducts.length,
-        itemBuilder: (ctx, i) {
-          final product = sampleProducts[i];
-          return Card(
-            elevation: 4,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Image.network(
-                    product.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text('\$${product.price.toStringAsFixed(2)}'),
-                      SizedBox(height: 8),
-                      Consumer<CartModel>(
-                        builder: (_, cart, __) {
-                          final isInCart = cart.items.any(
-                            (item) => item.product.id == product.id
-                          );
-                          return ElevatedButton(
-                            onPressed: () {
-                              if (!isInCart) {
-                                cart.addProduct(product);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('${product.name} added to cart'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => CartPage()),
-                                );
-                              }
-                            },
-                            child: Text(
-                              isInCart ? 'View Cart' : 'Add to Cart',
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class CartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Shopping Cart'),
-      ),
-      body: Consumer<CartModel>(
-        builder: (context, cart, child) {
-          if (cart.items.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 100,
-                    color: Colors.grey,
-                  ),
-                  Text(
-                    'Your cart is empty',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Continue Shopping'),
-                  ),
-                ],
-              ),
-            );
-          }
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: cart.items.length,
-                  itemBuilder: (ctx, i) {
-                    final item = cart.items[i];
-                    return Card(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 4,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(item.product.imageUrl),
-                          ),
-                          title: Text(item.product.name),
-                          subtitle: Text(
-                            'Total: \$${(item.product.price * item.quantity).toStringAsFixed(2)}',
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.remove),
-                                onPressed: () {
-                                  cart.removeProduct(item.product.id);
-                                },
-                              ),
-                              Text('${item.quantity}'),
-                              IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () {
-                                  cart.addProduct(item.product);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Card(
-                margin: EdgeInsets.all(15),
-                child: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Spacer(),
-                      Chip(
-                        label: Text(
-                          '\$${cart.totalAmount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryTextTheme.titleLarge?.color,
-                          ),
-                        ),
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          cart.clearCart();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Order placed successfully!'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        },
-                        child: Text('ORDER NOW'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    width: '100%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+  },
+});
 `,
-    hints: [
-      "Use the ChangeNotifier class to create your data models",
-      "Use ChangeNotifierProvider to make your models available to widgets",
-      "Use Consumer or Provider.of to access the models in your widgets"
-    ],
-    testCases: [
-      {
-        input: "Add product to cart",
-        expectedOutput: "Product appears in cart, item count increases"
-      },
-      {
-        input: "Increase product quantity",
-        expectedOutput: "Product quantity increases, total updates correctly"
-      },
-      {
-        input: "Remove product from cart",
-        expectedOutput: "Product quantity decreases or removes product if quantity is 1"
-      }
-    ],
-    timeEstimate: 60,
-    slug: "flutter-state-management"
+      explanation: "This solution provides a basic mobile app using React Native. It includes a text input field and a button. The app prompts the user to enter their name and displays a greeting message when the button is pressed."
+    }
   },
   {
     id: 5,
-    title: "React Component Optimization",
+    title: "E-commerce Shopping Cart with JavaScript",
+    description: "Build a functional shopping cart with vanilla JavaScript",
     category: "frontend",
-    level: "advanced",
-    description: "Optimize rendering performance of a React component displaying a large dataset",
-    task: "Optimize the product list component using appropriate React techniques",
-    defaultCode: `import React, { useState, useEffect } from 'react';
-import './App.css';
-
-// This mimics a large dataset that might come from an API
-const generateLargeDataset = () => {
-  const items = [];
-  for (let i = 1; i <= 10000; i++) {
-    items.push({
-      id: i,
-      name: \`Product \${i}\`,
-      price: Math.floor(Math.random() * 1000) + 1,
-      category: ['Electronics', 'Clothing', 'Books', 'Home', 'Toys'][
-        Math.floor(Math.random() * 5)
-      ],
-    });
-  }
-  return items;
-};
-
-function App() {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  
-  // Load data on mount
-  useEffect(() => {
-    const data = generateLargeDataset();
-    setProducts(data);
-    setFilteredProducts(data);
-  }, []);
-  
-  // This function is inefficient and causes performance issues
-  const handleSearch = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-    
-    const filtered = products.filter(product => {
-      return product.name.toLowerCase().includes(term.toLowerCase()) && 
-        (selectedCategory === '' || product.category === selectedCategory);
-    });
-    
-    setFilteredProducts(filtered);
-  };
-  
-  // This function is also inefficient
-  const handleCategoryChange = (e) => {
-    const category = e.target.value;
-    setSelectedCategory(category);
-    
-    const filtered = products.filter(product => {
-      return product.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
-        (category === '' || product.category === category);
-    });
-    
-    setFilteredProducts(filtered);
-  };
-  
-  return (
-    <div className="App">
-      <h1>Product List</h1>
-      
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        
-        <select value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Books">Books</option>
-          <option value="Home">Home</option>
-          <option value="Toys">Toys</option>
-        </select>
-      </div>
-      
-      <div className="product-count">
-        Showing {filteredProducts.length} products
-      </div>
-      
-      <div className="product-list">
-        {filteredProducts.map(product => (
-          <div key={product.id} className="product-card">
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <p>Category: {product.category}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default App;
-`,
-    solution: `import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { FixedSizeList as List } from 'react-window';
-import './App.css';
-
-// This mimics a large dataset that might come from an API
-const generateLargeDataset = () => {
-  const items = [];
-  for (let i = 1; i <= 10000; i++) {
-    items.push({
-      id: i,
-      name: \`Product \${i}\`,
-      price: Math.floor(Math.random() * 1000) + 1,
-      category: ['Electronics', 'Clothing', 'Books', 'Home', 'Toys'][
-        Math.floor(Math.random() * 5)
-      ],
-    });
-  }
-  return items;
-};
-
-// Memoized Product component
-const Product = React.memo(({ data, index, style }) => {
-  const product = data[index];
-  
-  return (
-    <div style={style} className="product-card">
-      <h3>{product.name}</h3>
-      <p>Price: ${product.price}</p>
-      <p>Category: {product.category}</p>
-    </div>
-  );
-});
-
-function App() {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  
-  // Load data on mount
-  useEffect(() => {
-    const data = generateLargeDataset();
-    setProducts(data);
-  }, []);
-  
-  // Memoized filtered products
-  const filteredProducts = useMemo(() => {
-    return products.filter(product => {
-      return product.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
-        (selectedCategory === '' || product.category === selectedCategory);
-    });
-  }, [products, searchTerm, selectedCategory]);
-  
-  // Optimized event handlers with useCallback
-  const handleSearch = useCallback((e) => {
-    setSearchTerm(e.target.value);
-  }, []);
-  
-  const handleCategoryChange = useCallback((e) => {
-    setSelectedCategory(e.target.value);
-  }, []);
-  
-  // Row renderer function for the virtualized list
-  const Row = useCallback(({ index, style }) => {
-    return <Product data={filteredProducts} index={index} style={style} />;
-  }, [filteredProducts]);
-  
-  return (
-    <div className="App">
-      <h1>Product List</h1>
-      
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        
-        <select value={selectedCategory} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Books">Books</option>
-          <option value="Home">Home</option>
-          <option value="Toys">Toys</option>
-        </select>
-      </div>
-      
-      <div className="product-count">
-        Showing {filteredProducts.length} products
-      </div>
-      
-      <div className="product-list-container">
-        {filteredProducts.length > 0 ? (
-          <List
-            className="product-list"
-            height={500}
-            itemCount={filteredProducts.length}
-            itemSize={100}
-            width="100%"
-          >
-            {Row}
-          </List>
-        ) : (
-          <p>No products found</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default App;
-`,
-    hints: [
-      "Use memo, useCallback, and useMemo hooks",
-      "Implement windowing/virtualization with a library like react-window",
-      "Use efficient state management to minimize re-renders",
-      "Add proper keys to list items"
+    level: "intermediate",
+    tags: ["javascript", "dom", "ecommerce", "localstorage"],
+    duration: 90, // Updated to use duration instead of timeEstimate
+    objectives: [
+      "Create a shopping cart data structure",
+      "Implement add, update, and remove functionality",
+      "Display cart contents dynamically",
+      "Calculate totals and handle quantity changes",
+      "Save cart state in localStorage"
     ],
-    testCases: [
+    tasks: [
       {
-        input: "Initial render of 10,000 items",
-        expectedOutput: "UI remains responsive, no freezing"
+        title: "Set Up Basic HTML Structure",
+        description: "Create HTML for product listings and cart display"
       },
       {
-        input: "Filter by search term 'Product 100'",
-        expectedOutput: "List updates quickly with matching items"
+        title: "Style Your Application",
+        description: "Apply CSS to make your cart look good"
       },
       {
-        input: "Scroll through the list",
-        expectedOutput: "Smooth scrolling without rendering all items"
+        title: "Create Product Data",
+        description: "Define an array of product objects with properties"
+      },
+      {
+        title: "Display Products",
+        description: "Write JavaScript to dynamically render products on the page"
+      },
+      {
+        title: "Create Cart Functions",
+        description: "Implement functions to add, update, and remove items from cart"
+      },
+      {
+        title: "Render Cart Items",
+        description: "Display cart items dynamically with quantities and subtotals"
+      },
+      {
+        title: "Calculate Cart Total",
+        description: "Add functionality to calculate and display the cart total"
+      },
+      {
+        title: "Implement Quantity Controls",
+        description: "Allow users to change quantities and update the cart"
+      },
+      {
+        title: "Save to localStorage",
+        description: "Persist cart data in localStorage so it survives page reloads"
       }
     ],
-    timeEstimate: 50,
-    slug: "react-component-optimization"
+    solution: {
+      code: `// cart.js
+let cartItems = [];
+
+// Load cart from localStorage on page load
+function loadCart() {
+  const savedCart = localStorage.getItem('cart');
+  if (savedCart) {
+    cartItems = JSON.parse(savedCart);
+    updateCartDisplay();
   }
-];
+}
+
+// Save cart to localStorage
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cartItems));
+}
+
+// Add item to cart
+function addToCart(productId, name, price) {
+  const existingItem = cartItems.find(item => item.productId === productId);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cartItems.push({
+      productId,
+      name,
+      price,
+      quantity: 1
+    });
+  }
+  
+  updateCartDisplay();
+  saveCart();
+}
+
+// Remove item from cart
+function removeFromCart(productId) {
+  cartItems = cartItems.filter(item => item.productId !== productId);
+  updateCartDisplay();
+  saveCart();
+}
+
+// Update item quantity
+function updateQuantity(productId, newQuantity) {
+  const cartItem = cartItems.find(item => item.productId === productId);
+  
+  if (cartItem) {
+    if (newQuantity > 0) {
+      cartItem.quantity = newQuantity;
+    } else {
+      removeFromCart(productId);
+      return;
+    }
+  }
+  
+  updateCartDisplay();
+  saveCart();
+}
+
+// Calculate cart total
+function calculateTotal() {
+  return cartItems.reduce((total, cartItem) => {
+    return total + (cartItem.price * cartItem.quantity);
+  }, 0);
+}
+
+// Update the cart display
+function updateCartDisplay() {
+  const cartElement = document.getElementById('cart-items');
+  const totalElement = document.getElementById('cart-total');
+  
+  // Clear current cart display
+  cartElement.innerHTML = '';
+  
+  if (cartItems.length === 0) {
+    cartElement.innerHTML = '<p>Your cart is empty</p>';
+    totalElement.textContent = '0.00';
+    return;
+  }
+  
+  // Add each item to the display
+  cartItems.forEach(cartItem => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'cart-item';
+    
+    const subtotal = (cartItem.price * cartItem.quantity).toFixed(2);
+    
+    itemElement.innerHTML = \`
+      <div class="item-name">\${cartItem.name}</div>
+      <div class="item-price">$\${cartItem.price.toFixed(2)}</div>
+      <div class="item-quantity">
+        <button class="quantity-btn minus">-</button>
+        <span>\${cartItem.quantity}</span>
+        <button class="quantity-btn plus">+</button>
+      </div>
+      <div class="item-subtotal">$\${subtotal}</div>
+      <button class="remove-btn">Remove</button>
+    \`;
+    
+    // Add event listeners
+    const minusBtn = itemElement.querySelector('.minus');
+    minusBtn.addEventListener('click', () => {
+      updateQuantity(cartItem.productId, cartItem.quantity - 1);
+    });
+    
+    const plusBtn = itemElement.querySelector('.plus');
+    plusBtn.addEventListener('click', () => {
+      updateQuantity(cartItem.productId, cartItem.quantity + 1);
+    });
+    
+    const removeBtn = itemElement.querySelector('.remove-btn');
+    removeBtn.addEventListener('click', () => {
+      removeFromCart(cartItem.productId);
+    });
+    
+    cartElement.appendChild(itemElement);
+  });
+  
+  // Update total
+  totalElement.textContent = calculateTotal().toFixed(2);
+}
+
+// Display products
+function displayProducts() {
+  const products = [
+    { id: 1, name: 'Product 1', price: 29.99, image: 'product1.jpg' },
+    { id: 2, name: 'Product 2', price: 39.99, image: 'product2.jpg' },
+    { id: 3, name: 'Product 3', price: 19.99, image: 'product3.jpg' },
+    { id: 4, name: 'Product 4', price: 49.99, image: 'product4.jpg' }
+  ];
+  
+  const productsContainer = document.getElementById('products');
+  
+  products.forEach(product => {
+    const productElement = document.createElement('div');
+    productElement.className = 'product';
+    
+    productElement.innerHTML = \`
+      <img src="images/\${product.image}" alt="\${product.name}">
+      <h3>\${product.name}</h3>
+      <p class="price">$\${product.price.toFixed(2)}</p>
+      <button class="add-to-cart">Add to Cart</button>
+    \`;
+    
+    const addToCartBtn = productElement.querySelector('.add-to-cart');
+    addToCartBtn.addEventListener('click', () => {
+      addToCart(product.id, product.name, product.price);
+    });
+    
+    productsContainer.appendChild(productElement);
+  });
+}
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+  displayProducts();
+  loadCart();
+});`,
+      explanation: "This solution implements a complete shopping cart system using vanilla JavaScript. It includes functionality to add items to the cart, update quantities, remove items, and calculate totals. The cart state is saved to localStorage so it persists between page refreshes. The code organizes cart logic into clear functions and includes proper event handling for the cart interactions."
+    }
+  },
+  {
+    id: 6,
+    title: "Implement User Authentication with Firebase",
+    description: "Learn how to implement user authentication in a web application using Firebase.",
+    category: "backend",
+    level: "advanced",
+    tags: ["firebase", "authentication", "javascript", "web-development"],
+    duration: 75,
+    objectives: [
+      "Set up a Firebase project",
+      "Implement user registration",
+      "Implement user login",
+      "Implement user logout",
+      "Secure your application with Firebase authentication"
+    ],
+    tasks: [
+      {
+        title: "Set up Firebase project",
+        description: "Create a new Firebase project and enable authentication."
+      },
+      {
+        title: "Implement user registration",
+        description: "Implement a function to allow users to register with their email and password."
+      },
+      {
+        title: "Implement user login",
+        description: "Implement a function to allow users to log in with their email and password."
+      },
+      {
+        title: "Implement user logout",
+        description: "Implement a function to allow users to log out of the application."
+      },
+      {
+        title: "Secure your application",
+        description: "Secure your application by only allowing authenticated users to access certain resources."
+      }
+    ],
+    solution: {
+      code: `
+// Import the Firebase modules
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Function to register a new user
+const registerUser = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log("User registered:", user);
+    return user;
+  } catch (error) {
+    console.error("Error registering user:", error.message);
+    throw error;
+  }
+};
+
+// Function to login an existing user
+const loginUser = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log("User logged in:", user);
+    return user;
+  } catch (error) {
+    console.error("Error logging in user:", error.message);
+    throw error;
+  }
+};
+
+// Function to logout the current user
+const logoutUser = async () => {
+  try {
+    await signOut(auth);
+    console.log("User logged out");
+  } catch (error) {
+    console.error("Error logging out user:", error.message);
+    throw error;
+  }
+};
+
+export { registerUser, loginUser, logoutUser };
+`,
+      explanation: "This solution provides a basic implementation of user authentication using Firebase. It includes functions to register new users, log in existing users, and log out the current user. The solution also shows how to secure your application by only allowing authenticated users to access certain resources."
+    }
+  },
+  {
+    id: 7,
+    title: "Create a Chat Application with Socket.IO",
+    description: "Build a real-time chat application using Socket.IO.",
+    category: "fullstack",
+    level: "advanced",
+    tags: ["socket.io", "node.js", "javascript", "web-development"],
+    duration: 120,
+    objectives: [
+      "Set up a Node.js server with Socket.IO",
+      "Create a client-side application to connect to the server",
+      "Implement real-time messaging",
+      "Handle user connections and disconnections"
+    ],
+    tasks: [
+      {
+        title: "Set up Node.js server",
+        description: "Set up a Node.js server with Socket.IO to handle real-time communication."
+      },
+      {
+        title: "Create client-side application",
+        description: "Create a client-side application to connect to the server and send/receive messages."
+      },
+      {
+        title: "Implement real-time messaging",
+        description: "Implement a function to send and receive messages in real-time."
+      },
+      {
+        title: "Handle user connections",
+        description: "Handle user connections and disconnections to keep track of active users."
+      }
+    ],
+    solution: {
+      code: `
+// Server-side code (Node.js with Socket.IO)
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
+
+const PORT = process.env.PORT || 4000;
+
+// Handle new user connections
+io.on('connection', (socket) => {
+  console.log('New user connected:', socket.id);
+
+  // Listen for new messages
+  socket.on('message', (data) => {
+    console.log('Message received:', data);
+    io.emit('message', data); // Broadcast the message to all connected clients
+  });
+
+  // Handle user disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(\`Server running on port \${PORT}\`);
+});
+
+// Client-side code (HTML and JavaScript)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Application</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Chat Application</h1>
+    <ul id="messages"></ul>
+    <form id="chatForm">
+        <input type="text" id="messageInput" placeholder="Type your message">
+        <button type="submit">Send</button>
+    </form>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:4000'); // Connect to the Socket.IO server
+        const messages = document.getElementById('messages');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            socket.emit('message', message); // Send the message to the server
+            messageInput.value = '';
+        });
+
+        socket.on('message', (message) => {
+            const li = document.createElement('li');
+            li.textContent = message;
+            messages.appendChild(li);
+        });
+    </script>
+</body>
+</html>
+`,
+      explanation: "This solution provides a basic chat application using Socket.IO. It includes a Node.js server to handle real-time communication and a client-side application to connect to the server and send/receive messages. The application allows users to send messages in real-time and handles user connections and disconnections."
+    }
+  },
+  {
+    id: 8,
+    title: "Flutter To-Do List App",
+    description: "Create a to-do list app with Flutter",
+    category: "mobile",
+    level: "beginner",
+    tags: ["flutter", "dart", "mobile", "state-management"],
+    duration: 120, // Updated to use duration instead of timeEstimate
+    objectives: [
+      "Set up a Flutter development environment",
+      "Create a beautiful UI with Flutter widgets",
+      "Implement CRUD operations for to-do items",
+      "Manage state in a Flutter application",
+      "Use local storage to persist to-do items"
+    ],
+    tasks: [
+      {
+        title: "Set Up Flutter Environment",
+        description: "Install Flutter SDK and set up your development environment"
+      },
+      {
+        title: "Create a New Flutter Project",
+        description: "Initialize a new Flutter project and understand the project structure"
+      },
+      {
+        title: "Design the UI",
+        description: "Create a home screen with a list of to-dos and action buttons"
+      },
+      {
+        title: "Create Todo Model",
+        description: "Define a Todo class with properties like id, title, description, and completion status"
+      },
+      {
+        title: "Implement Add Todo Functionality",
+        description: "Create a form to add new to-dos to the list"
+      },
+      {
+        title: "Implement Todo List Display",
+        description: "Display the list of to-dos with proper formatting"
+      },
+      {
+        title: "Add Edit and Delete Functionality",
+        description: "Allow users to edit and delete existing to-dos"
+      },
+      {
+        title: "Implement Todo Completion Toggle",
+        description: "Add the ability to mark to-dos as completed or incomplete"
+      },
+      {
+        title: "Add Persistence",
+        description: "Save to-dos to local storage so they persist between app launches"
+      }
+    ],
+    solution: {
+      code: `// main.dart
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+void main() {
+  runApp(TodoApp());
+}
+
+class TodoApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Todo App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: TodoListScreen(),
+    );
+  }
+}
+
+class Todo {
+  final String id;
+  String title;
+  String description;
+  bool isCompleted;
+
+  Todo({
+    required this.id,
+    required this.title,
+    required this.description,
+    this.isCompleted = false,
+  });
