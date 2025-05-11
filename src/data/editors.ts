@@ -717,23 +717,23 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
-      itemBuilder: (context, i) {
+      itemBuilder: (context, index) {
         return Card(
           margin: EdgeInsets.all(8.0),
           child: ListTile(
             leading: CircleAvatar(
-              child: Text('${i + 1}'),
+              child: Text('\${index + 1}'),
             ),
-            title: Text('Item ${i + 1}'),
-            subtitle: Text('Description for item ${i + 1}'),
+            title: Text('Item \${index + 1}'),
+            subtitle: Text('Description for item \${index + 1}'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               // Show a simple dialog when an item is tapped
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Item ${i + 1}'),
-                  content: Text('You tapped on item ${i + 1}'),
+                  title: Text('Item \${index + 1}'),
+                  content: Text('You tapped on item \${index + 1}'),
                   actions: [
                     TextButton(
                       child: Text('Close'),
@@ -807,15 +807,15 @@ class _SearchTabState extends State<SearchTab> {
                 )
               : ListView.builder(
                   itemCount: _searchResults.length,
-                  itemBuilder: (context, i) {
+                  itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(_searchResults[i]),
+                      title: Text(_searchResults[index]),
                       onTap: () {
                         // Clear search and show selected item
                         FocusScope.of(context).unfocus();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Selected: ${_searchResults[i]}'),
+                            content: Text('Selected: \${_searchResults[index]}'),
                             duration: Duration(seconds: 1),
                           ),
                         );
