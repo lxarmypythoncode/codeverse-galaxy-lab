@@ -1,3 +1,4 @@
+
 export interface IModule {
   id: number;
   title: string;
@@ -369,7 +370,7 @@ A recommended approach for many Flutter apps:
 
 \`\`\`dart
 // Create a data model
-class CounterModel extends ChangeNotifier {
+class CounterModel with ChangeNotifier {
   int _count = 0;
   int get count => _count;
 
@@ -383,7 +384,7 @@ class CounterModel extends ChangeNotifier {
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => CounterModel(),
+      create: (ctx) => CounterModel(),
       child: MyApp(),
     ),
   );
@@ -392,12 +393,12 @@ void main() {
 // Consume the model
 class CounterPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext ctx) {
     return Column(
       children: [
-        Text('Count: ${context.watch<CounterModel>().count}'),
+        Text('Count: ${ctx.watch<CounterModel>().count}'),
         ElevatedButton(
-          onPressed: () => context.read<CounterModel>().increment(),
+          onPressed: () => ctx.read<CounterModel>().increment(),
           child: Text('Increment'),
         ),
       ],
