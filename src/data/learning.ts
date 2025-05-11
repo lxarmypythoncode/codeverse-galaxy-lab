@@ -1,4 +1,3 @@
-
 export interface IModule {
   id: number;
   title: string;
@@ -384,7 +383,7 @@ class CounterModel extends ChangeNotifier {
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (ctx) => CounterModel(),
+      create: (context) => CounterModel(),
       child: MyApp(),
     ),
   );
@@ -393,12 +392,12 @@ void main() {
 // Consume the model
 class CounterPage extends StatelessWidget {
   @override
-  Widget build(BuildContext ctx) {
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Count: ${ctx.watch<CounterModel>().count}'),
+        Text('Count: ${context.watch<CounterModel>().count}'),
         ElevatedButton(
-          onPressed: () => ctx.read<CounterModel>().increment(),
+          onPressed: () => context.read<CounterModel>().increment(),
           child: Text('Increment'),
         ),
       ],
