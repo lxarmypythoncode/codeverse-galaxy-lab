@@ -1,15 +1,14 @@
-
 export interface ILab {
   id: number;
   title: string;
   category: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'cyber';
   level: 'beginner' | 'intermediate' | 'advanced';
   description: string;
-  instructions: string;
-  initialCode: string;
-  solutionCode: string;
-  testCases: { input: string; expectedOutput: string }[];
-  timeEstimate: number; // minutes
+  task: string;
+  defaultCode: string;
+  solution: string;
+  hints: string[];
+  testCases?: { input: string; expectedOutput: string }[];
   slug: string;
 }
 
@@ -20,21 +19,8 @@ export const labs: ILab[] = [
     category: "frontend",
     level: "beginner",
     description: "Create a responsive navigation bar that collapses into a hamburger menu on mobile devices",
-    instructions: `# Navigation Bar Lab
-
-In this lab, you'll build a responsive navigation bar that:
-1. Displays horizontally on desktop
-2. Collapses to a hamburger menu on mobile devices (< 768px)
-3. Includes smooth transitions when opening/closing the menu
-4. Contains at least 5 navigation items
-
-## Requirements:
-- Use HTML, CSS, and JavaScript
-- Don't use any external libraries or frameworks
-- Ensure the navigation is accessible (proper ARIA attributes)
-- Style it with a modern design
-- Implement smooth animations`,
-    initialCode: `<!DOCTYPE html>
+    task: "Implement a responsive navigation bar with smooth transitions and accessibility features",
+    defaultCode: `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -54,7 +40,7 @@ In this lab, you'll build a responsive navigation bar that:
   </script>
 </body>
 </html>`,
-    solutionCode: `<!DOCTYPE html>
+    solution: `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -191,6 +177,13 @@ In this lab, you'll build a responsive navigation bar that:
   </script>
 </body>
 </html>`,
+    hints: [
+      "Use HTML, CSS, and JavaScript",
+      "Don't use any external libraries or frameworks",
+      "Ensure the navigation is accessible (proper ARIA attributes)",
+      "Style it with a modern design",
+      "Implement smooth animations"
+    ],
     testCases: [
       {
         input: "Desktop view (width > 768px)",
@@ -214,22 +207,8 @@ In this lab, you'll build a responsive navigation bar that:
     category: "backend",
     level: "intermediate",
     description: "Implement a rate limiter for a Node.js Express API",
-    instructions: `# API Rate Limiter Lab
-
-In this lab, you'll implement a rate limiter middleware for a Node.js Express API.
-
-## Requirements:
-1. Create a middleware that limits requests to 100 per hour per IP address
-2. Use an in-memory store (for simplicity)
-3. Return appropriate status codes (429) when limit is exceeded
-4. Include remaining limit count in response headers
-5. Implement a sliding window algorithm for more accurate rate limiting
-
-## Tips:
-- Consider using a Map to store IP addresses and their request counts
-- Remember to include timestamps to implement the sliding window
-- Test your solution with multiple concurrent requests`,
-    initialCode: `const express = require('express');
+    task: "Create a middleware that limits requests to 100 per hour per IP address",
+    defaultCode: `const express = require('express');
 const app = express();
 
 // Implement your rate limiter middleware here
@@ -248,7 +227,7 @@ app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 `,
-    solutionCode: `const express = require('express');
+    solution: `const express = require('express');
 const app = express();
 
 function rateLimiter(maxRequests, windowMs) {
@@ -306,6 +285,12 @@ app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 `,
+    hints: [
+      "Use an in-memory store (for simplicity)",
+      "Return appropriate status codes (429) when limit is exceeded",
+      "Include remaining limit count in response headers",
+      "Implement a sliding window algorithm for more accurate rate limiting"
+    ],
     testCases: [
       {
         input: "Single request",
@@ -329,24 +314,8 @@ app.listen(3000, () => {
     category: "cyber",
     level: "intermediate",
     description: "Identify and fix SQL injection vulnerabilities in existing code",
-    instructions: `# SQL Injection Prevention Lab
-
-In this lab, you'll identify and fix SQL injection vulnerabilities in existing Node.js code that connects to a database.
-
-## Scenario:
-You're reviewing code for a user authentication system that allows users to login with email and password. The current implementation is vulnerable to SQL injection attacks.
-
-## Requirements:
-1. Identify all SQL injection vulnerabilities in the code
-2. Fix each vulnerability using parameterized queries
-3. Add input validation where appropriate
-4. Document your changes and explain why they prevent SQL injection
-
-## Tips:
-- Look for places where user input is directly concatenated into SQL queries
-- Use prepared statements/parameterized queries
-- Consider using an ORM like Sequelize or TypeORM instead of raw queries`,
-    initialCode: `const express = require('express');
+    task: "Identify all SQL injection vulnerabilities in the code and fix each vulnerability",
+    defaultCode: `const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
@@ -409,7 +378,7 @@ app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 `,
-    solutionCode: `const express = require('express');
+    solution: `const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
@@ -492,6 +461,11 @@ app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 `,
+    hints: [
+      "Look for places where user input is directly concatenated into SQL queries",
+      "Use prepared statements/parameterized queries",
+      "Consider using an ORM like Sequelize or TypeORM instead of raw queries"
+    ],
     testCases: [
       {
         input: "Normal login with email: user@example.com, password: password123",
@@ -515,22 +489,8 @@ app.listen(3000, () => {
     category: "mobile",
     level: "intermediate",
     description: "Build a shopping cart app using Flutter's Provider package for state management",
-    instructions: `# Flutter State Management Lab
-
-In this lab, you'll build a simple shopping cart app using Flutter's Provider package for state management.
-
-## Requirements:
-1. Create a product listing page showing at least 5 products
-2. Implement a shopping cart that can add/remove products
-3. Display the cart total and item count
-4. Use the Provider package for state management
-5. Include a cart page that shows all selected items
-
-## Tips:
-- Use the ChangeNotifier class to create your data models
-- Use ChangeNotifierProvider to make your models available to widgets
-- Use Consumer or Provider.of to access the models in your widgets`,
-    initialCode: `import 'package:flutter/material.dart';
+    task: "Create a product listing page showing at least 5 products and implement a shopping cart",
+    defaultCode: `import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Create your models here
@@ -567,7 +527,7 @@ class CartPage extends StatelessWidget {
     return Scaffold();
   }
 }`,
-    solutionCode: `import 'package:flutter/material.dart';
+    solution: `import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Models
@@ -957,6 +917,11 @@ class CartPage extends StatelessWidget {
   }
 }
 `,
+    hints: [
+      "Use the ChangeNotifier class to create your data models",
+      "Use ChangeNotifierProvider to make your models available to widgets",
+      "Use Consumer or Provider.of to access the models in your widgets"
+    ],
     testCases: [
       {
         input: "Add product to cart",
@@ -980,26 +945,8 @@ class CartPage extends StatelessWidget {
     category: "frontend",
     level: "advanced",
     description: "Optimize rendering performance of a React component displaying a large dataset",
-    instructions: `# React Component Optimization Lab
-
-In this lab, you'll optimize a React component that renders a large list of items, causing performance issues.
-
-## Scenario:
-The current implementation is slow and inefficient, causing the UI to freeze when rendering or filtering a large list of products.
-
-## Requirements:
-1. Optimize the product list component using appropriate React techniques
-2. Implement proper list virtualization for the large dataset
-3. Optimize the filtering and sorting operations
-4. Use React's performance optimization hooks and components
-5. Measure and document the performance improvements
-
-## Tips:
-- Consider using memo, useCallback, and useMemo hooks
-- Implement windowing/virtualization with a library like react-window
-- Use efficient state management to minimize re-renders
-- Add proper keys to list items`,
-    initialCode: `import React, { useState, useEffect } from 'react';
+    task: "Optimize the product list component using appropriate React techniques",
+    defaultCode: `import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // This mimics a large dataset that might come from an API
@@ -1098,7 +1045,7 @@ function App() {
 
 export default App;
 `,
-    solutionCode: `import React, { useState, useEffect, useMemo, useCallback } from 'react';
+    solution: `import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import './App.css';
 
@@ -1211,6 +1158,12 @@ function App() {
 
 export default App;
 `,
+    hints: [
+      "Use memo, useCallback, and useMemo hooks",
+      "Implement windowing/virtualization with a library like react-window",
+      "Use efficient state management to minimize re-renders",
+      "Add proper keys to list items"
+    ],
     testCases: [
       {
         input: "Initial render of 10,000 items",

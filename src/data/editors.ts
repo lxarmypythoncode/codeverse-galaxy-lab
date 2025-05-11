@@ -1,3 +1,4 @@
+
 export interface IEditor {
   id: string;
   title: string;
@@ -1127,12 +1128,12 @@ function encrypt_message() {
     for (( i=0; i<\${#message}; i++ )); do
         char="\${message:\$i:1}"
         ascii_val=$(printf "%d" "'$char")
-        key_char="\${key:\$((i % \${#key})):1}"
+        key_char="\${key:\$((\$i % \${#key})):1}"
         key_val=$(printf "%d" "'$key_char")
         
         # XOR operation
-        encrypted_val=$((ascii_val ^ key_val))
-        encrypted+=$(printf "\\\\x%02x" $encrypted_val)
+        encrypted_val=$((\$ascii_val ^ \$key_val))
+        encrypted+=$(printf "\\\\x%02x" \$encrypted_val)
     done
     
     echo "Original message: $message"
@@ -1251,5 +1252,5 @@ echo "This is a simulated environment. In a real security context,"
 echo "you would use actual tools like Nmap, Metasploit, Wireshark, etc."
 `,
     documentationUrl: 'https://owasp.org/www-project-top-ten/'
-  },
+  }
 ];
