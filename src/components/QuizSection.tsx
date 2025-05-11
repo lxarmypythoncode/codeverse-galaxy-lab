@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowRight, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const QuizSection: React.FC = () => {
