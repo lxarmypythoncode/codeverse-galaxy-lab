@@ -717,23 +717,23 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
-      itemBuilder: (context, idx) {
+      itemBuilder: (context, index) {
         return Card(
           margin: EdgeInsets.all(8.0),
           child: ListTile(
             leading: CircleAvatar(
-              child: Text('${idx + 1}'),
+              child: Text('${index + 1}'),
             ),
-            title: Text('Item ${idx + 1}'),
-            subtitle: Text('Description for item ${idx + 1}'),
+            title: Text('Item ${index + 1}'),
+            subtitle: Text('Description for item ${index + 1}'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               // Show a simple dialog when an item is tapped
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Item ${idx + 1}'),
-                  content: Text('You tapped on item ${idx + 1}'),
+                  title: Text('Item ${index + 1}'),
+                  content: Text('You tapped on item ${index + 1}'),
                   actions: [
                     TextButton(
                       child: Text('Close'),
@@ -757,7 +757,7 @@ class SearchTab extends StatefulWidget {
 
 class _SearchTabState extends State<SearchTab> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> _searchResults = [];
+  List<String> searchResults = [];
   final List<String> _allItems = [
     'Apple', 'Banana', 'Cherry', 'Date', 'Elderberry',
     'Fig', 'Grape', 'Honeydew', 'Kiwi', 'Lemon',
@@ -766,7 +766,7 @@ class _SearchTabState extends State<SearchTab> {
   void _performSearch(String query) {
     if (query.isEmpty) {
       setState(() {
-        _searchResults = [];
+        searchResults = [];
       });
       return;
     }
@@ -776,7 +776,7 @@ class _SearchTabState extends State<SearchTab> {
         .toList();
     
     setState(() {
-      _searchResults = results;
+      searchResults = results;
     });
   }
   
@@ -799,23 +799,23 @@ class _SearchTabState extends State<SearchTab> {
           ),
         ),
         Expanded(
-          child: _searchResults.isEmpty
+          child: searchResults.isEmpty
               ? Center(
                   child: _searchController.text.isEmpty
                       ? Text('Search for items')
                       : Text('No results found'),
                 )
               : ListView.builder(
-                  itemCount: _searchResults.length,
+                  itemCount: searchResults.length,
                   itemBuilder: (context, i) {
                     return ListTile(
-                      title: Text(_searchResults[i]),
+                      title: Text(searchResults[i]),
                       onTap: () {
                         // Clear search and show selected item
                         FocusScope.of(context).unfocus();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Selected: ${_searchResults[i]}'),
+                            content: Text('Selected: ${searchResults[i]}'),
                             duration: Duration(seconds: 1),
                           ),
                         );
