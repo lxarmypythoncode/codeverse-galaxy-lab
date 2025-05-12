@@ -2,72 +2,38 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-
-interface CourseCard {
-  title: string;
-  category: string;
-  description: string;
-  image: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  duration: string;
-  path: string;
-  techStack: string[];
-}
-
-const courses: CourseCard[] = [
-  {
-    title: 'Modern Frontend Development',
-    category: 'Frontend',
-    description: 'Master HTML, CSS, JavaScript and modern frameworks like React.',
-    image: 'gradient-1',
-    difficulty: 'Beginner',
-    duration: '8 weeks',
-    path: '/learn/frontend',
-    techStack: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind']
-  },
-  {
-    title: 'Backend Engineering with Node.js',
-    category: 'Backend',
-    description: 'Build scalable APIs and server applications with Node.js and Express.',
-    image: 'gradient-2',
-    difficulty: 'Intermediate',
-    duration: '10 weeks',
-    path: '/learn/backend',
-    techStack: ['Node.js', 'Express', 'MongoDB', 'REST API', 'GraphQL']
-  },
-  {
-    title: 'MERN Stack Development',
-    category: 'Fullstack',
-    description: 'End-to-end web development with MongoDB, Express, React, and Node.',
-    image: 'gradient-3',
-    difficulty: 'Intermediate',
-    duration: '12 weeks',
-    path: '/learn/fullstack',
-    techStack: ['MongoDB', 'Express', 'React', 'Node.js', 'JWT']
-  },
-  {
-    title: 'Mobile App Development with Flutter',
-    category: 'Mobile',
-    description: 'Create cross-platform mobile apps with Google\'s Flutter framework.',
-    image: 'gradient-4',
-    difficulty: 'Intermediate',
-    duration: '10 weeks',
-    path: '/learn/mobile',
-    techStack: ['Dart', 'Flutter', 'Firebase', 'State Management', 'UI Design']
-  },
-  {
-    title: 'Ethical Hacking Fundamentals',
-    category: 'Cyber Security',
-    description: 'Learn ethical hacking, penetration testing and security fundamentals.',
-    image: 'gradient-5',
-    difficulty: 'Advanced',
-    duration: '8 weeks',
-    path: '/learn/cybersecurity',
-    techStack: ['Kali Linux', 'Networking', 'Web Security', 'OWASP', 'Cryptography']
-  }
-];
+import { useQuery } from '@tanstack/react-query';
+import { LearningApi } from '@/api/learningApi';
+import { ICourseTrack } from '@/types/learningApi';
 
 const FeaturedCourses: React.FC = () => {
+  // Fetch course tracks from the API
+  const { data: courses, isLoading, error } = useQuery({
+    queryKey: ['featuredCourses'],
+    queryFn: LearningApi.getAllTracks,
+  });
+
+  // Function to get appropriate color gradient based on index
+  const getGradient = (index: number) => {
+    switch (index % 5) {
+      case 0: return 'from-neon-blue to-neon-green';
+      case 1: return 'from-neon-purple to-neon-blue';
+      case 2: return 'from-neon-blue to-neon-yellow';
+      case 3: return 'from-neon-green to-neon-yellow';
+      default: return 'from-neon-yellow to-neon-purple';
+    }
+  };
+
+  // Function to get badge color based on level
+  const getLevelBadgeColor = (level: string) => {
+    switch (level) {
+      case 'beginner': return 'bg-green-900/20 text-green-400';
+      case 'intermediate': return 'bg-yellow-900/20 text-yellow-400';
+      case 'advanced': return 'bg-red-900/20 text-red-400';
+      default: return 'bg-blue-900/20 text-blue-400';
+    }
+  };
+
   return (
     <section className="py-12 px-4">
       <div className="max-w-7xl mx-auto">
@@ -81,67 +47,70 @@ const FeaturedCourses: React.FC = () => {
           </NavLink>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course, index) => (
-            <NavLink 
-              to={course.path} 
-              key={index}
-              className="cosmic-card flex flex-col h-full hover:border-neon-blue/50 transition-all duration-300 group"
-            >
-              <div className={`h-36 bg-gradient-to-r 
-                ${index === 0 ? 'from-neon-blue to-neon-green' : 
-                 index === 1 ? 'from-neon-purple to-neon-blue' : 
-                 index === 2 ? 'from-neon-blue to-neon-yellow' : 
-                 index === 3 ? 'from-neon-green to-neon-yellow' : 
-                 'from-neon-yellow to-neon-purple'} 
-                opacity-20 group-hover:opacity-30 transition-opacity`}
+        {isLoading && (
+          <div className="text-center py-12">
+            <p className="text-neon-blue">Loading courses...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="text-center py-12">
+            <p className="text-red-400">Error loading courses. Please try again.</p>
+          </div>
+        )}
+        
+        {courses && courses.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courses.map((course: ICourseTrack, index: number) => (
+              <NavLink 
+                to={`/learn/path/${course.id}`} 
+                key={course.id}
+                className="cosmic-card flex flex-col h-full hover:border-neon-blue/50 transition-all duration-300 group"
               >
-              </div>
-              
-              <div className="p-5 flex-grow flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="tech-pill bg-neon-blue/20 text-neon-blue">
-                    {course.category}
-                  </span>
-                  <span className={`tech-pill 
-                    ${course.difficulty === 'Beginner' ? 'bg-green-900/20 text-green-400' : 
-                      course.difficulty === 'Intermediate' ? 'bg-yellow-900/20 text-yellow-400' : 
-                      'bg-red-900/20 text-red-400'}`
-                    }
-                  >
-                    {course.difficulty}
-                  </span>
+                <div className={`h-36 bg-gradient-to-r ${getGradient(index)} opacity-20 group-hover:opacity-30 transition-opacity`}>
                 </div>
                 
-                <h3 className="font-orbitron text-lg font-medium mb-2 group-hover:text-neon-blue transition-colors">
-                  {course.title}
-                </h3>
-                
-                <p className="text-sm text-gray-400 mb-4 flex-grow">
-                  {course.description}
-                </p>
-                
-                <div className="mt-auto">
-                  <div className="flex flex-wrap gap-1 mb-3">
-                    {course.techStack.map((tech, i) => (
-                      <span key={i} className="tech-pill bg-muted/50 text-gray-300 text-[10px]">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex justify-between items-center text-xs text-gray-400">
-                    <span>Duration: {course.duration}</span>
-                    <span className="flex items-center text-neon-blue group-hover:text-neon-yellow">
-                      Start Learning
-                      <ArrowRight className="ml-1 h-3 w-3" />
+                <div className="p-5 flex-grow flex flex-col">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="tech-pill bg-neon-blue/20 text-neon-blue">
+                      {course.id.split('-')[0].charAt(0).toUpperCase() + course.id.split('-')[0].slice(1)}
+                    </span>
+                    <span className={`tech-pill ${getLevelBadgeColor(course.level)}`}>
+                      {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
                     </span>
                   </div>
+                  
+                  <h3 className="font-orbitron text-lg font-medium mb-2 group-hover:text-neon-blue transition-colors">
+                    {course.title}
+                  </h3>
+                  
+                  <p className="text-sm text-gray-400 mb-4 flex-grow">
+                    {course.description}
+                  </p>
+                  
+                  <div className="mt-auto">
+                    {/* We'll show technology stack based on the first few items */}
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {course.items.slice(0, 5).map((itemId: number, i: number) => (
+                        <span key={i} className="tech-pill bg-muted/50 text-gray-300 text-[10px]">
+                          {`Item ${itemId}`}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    <div className="flex justify-between items-center text-xs text-gray-400">
+                      <span>Duration: {course.estimatedDuration}</span>
+                      <span className="flex items-center text-neon-blue group-hover:text-neon-yellow">
+                        Start Learning
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </NavLink>
-          ))}
-        </div>
+              </NavLink>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
