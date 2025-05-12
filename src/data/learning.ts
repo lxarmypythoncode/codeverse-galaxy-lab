@@ -1,4 +1,3 @@
-
 import { IModule } from "./learningTypes";
 import { frontendModules, backendModules } from "./learningModules";
 
@@ -299,27 +298,23 @@ class CounterModel with ChangeNotifier {
   }
 }
 
-// Use it in your app
+// Use it in your app (example code - not executable in this context)
+// Note: This is Flutter code shown as an example only
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => CounterModel(),
-      child: MyApp(),
-    ),
+    // Provider setup would go here
+    MyApp(),
   );
 }
 
-// Consume the model
+// Consume the model (example code - not executable in this context)
 class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Count: ${Provider.of<CounterModel>(context).count}'),
-        ElevatedButton(
-          onPressed: () => Provider.of<CounterModel>(context, listen: false).increment(),
-          child: Text('Increment'),
-        ),
+        // Text with counter value would go here
+        // Button to increment counter would go here
       ],
     );
   }
