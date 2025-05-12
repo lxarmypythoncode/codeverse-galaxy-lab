@@ -1,93 +1,11 @@
+import { IModule } from "./learningTypes";
+import { frontendModules, backendModules } from "./learningModules";
 
-export interface IModule {
-  id: number;
-  title: string;
-  category: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'cyber';
-  level: 'beginner' | 'intermediate' | 'advanced';
-  description: string;
-  content: string;
-  imageUrl: string;
-  authorName: string;
-  duration: number; // in minutes
-  tags: string[];
-  slug: string;
-}
-
+// Combine all modules
 export const modules: IModule[] = [
-  {
-    id: 1,
-    title: "React Hooks Deep Dive",
-    category: "frontend",
-    level: "intermediate",
-    description: "Master the power of React Hooks to build efficient function components",
-    content: `# React Hooks Deep Dive
-
-React Hooks have revolutionized how we write React components. In this module, we'll explore each hook in detail and look at common patterns.
-
-## useState Hook
-
-The useState hook allows you to add state to function components:
-
-\`\`\`jsx
-function Counter() {
-  const [count, setCount] = useState(0);
-  
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
-  );
-}
-\`\`\`
-
-## useEffect Hook
-
-The useEffect hook lets you perform side effects in function components:
-
-\`\`\`jsx
-function Example() {
-  const [data, setData] = useState(null);
-  
-  useEffect(() => {
-    fetchData().then(result => setData(result));
-    
-    return () => {
-      // Cleanup code
-    };
-  }, []);
-  
-  // Component code
-}
-\`\`\`
-
-## Custom Hooks
-
-You can create your own hooks to reuse stateful logic between components:
-
-\`\`\`jsx
-function useWindowWidth() {
-  const [width, setWidth] = useState(window.innerWidth);
-  
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  
-  return width;
-}
-\`\`\`
-
-Practice building your own custom hooks to encapsulate complex logic!`,
-    imageUrl: "/placeholder.svg",
-    authorName: "React Expert",
-    duration: 45,
-    tags: ["react", "hooks", "frontend", "javascript"],
-    slug: "react-hooks-deep-dive"
-  },
+  ...frontendModules,
+  ...backendModules,
+  // Keep any existing modules that are not duplicates
   {
     id: 2,
     title: "Node.js Performance Optimization",
@@ -396,7 +314,7 @@ class CounterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Count: \${context.watch<CounterModel>().count}'),
+        Text('Count: ${context.watch<CounterModel>().count}'),
         ElevatedButton(
           onPressed: () => context.read<CounterModel>().increment(),
           child: Text('Increment'),

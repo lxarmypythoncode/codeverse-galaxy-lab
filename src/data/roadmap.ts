@@ -1,27 +1,11 @@
+import { IRoadmap } from "./frontendRoadmap";
+import { frontendRoadmap } from "./frontendRoadmap";
 
-export interface IRoadmapNode {
-  id: string;
-  title: string;
-  description: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
-  type: 'concept' | 'skill' | 'tool';
-  dependencies: string[]; // IDs of nodes that must be completed before this one
-  resources?: {
-    title: string;
-    url: string;
-    type: 'article' | 'video' | 'course' | 'documentation';
-  }[];
-}
+export * from "./frontendRoadmap"; // Export the types
 
-export interface IRoadmap {
-  id: string;
-  title: string;
-  description: string;
-  category: 'frontend' | 'backend' | 'fullstack' | 'mobile' | 'cyber';
-  nodes: IRoadmapNode[];
-}
-
+// Define roadmaps from existing data, adding the new detailed frontend roadmap first
 export const roadmaps: IRoadmap[] = [
+  frontendRoadmap,
   {
     id: 'frontend',
     title: 'Frontend Developer',
