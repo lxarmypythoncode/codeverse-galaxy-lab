@@ -700,7 +700,7 @@ Tailwind makes responsive design easy with built-in breakpoints:
 
 ## Customization
 
-Tailwind is highly customizable through the `tailwind.config.js` file:
+Tailwind is highly customizable through the \`tailwind.config.js\` file:
 
 \`\`\`javascript
 // tailwind.config.js
