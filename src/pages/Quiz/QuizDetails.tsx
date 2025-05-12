@@ -53,7 +53,7 @@ const QuizDetails = () => {
         <CardContent>
           <p className="mb-4">{quiz.description}</p>
           <p className="text-sm text-muted-foreground mb-6">
-            {quiz.questions?.length || 0} questions • {quiz.difficulty}
+            {quiz.questions?.length || 0} questions • {quiz.difficulty || 'Mixed'}
           </p>
           
           <Button onClick={() => alert('Starting quiz...')}>
