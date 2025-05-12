@@ -1,3 +1,4 @@
+
 import { IModule } from "./learningTypes";
 import { frontendModules, backendModules } from "./learningModules";
 
@@ -302,7 +303,7 @@ class CounterModel with ChangeNotifier {
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => CounterModel(),
+      create: (_) => CounterModel(),
       child: MyApp(),
     ),
   );
@@ -314,9 +315,9 @@ class CounterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Count: ${context.watch<CounterModel>().count}'),
+        Text('Count: ${Provider.of<CounterModel>(context).count}'),
         ElevatedButton(
-          onPressed: () => context.read<CounterModel>().increment(),
+          onPressed: () => Provider.of<CounterModel>(context, listen: false).increment(),
           child: Text('Increment'),
         ),
       ],
